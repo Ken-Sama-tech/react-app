@@ -1,0 +1,21 @@
+@import 'tailwindcss';
+@import './assets/utilities.css';
+
+/*global vars*/
+:root {
+   /* background color */
+   --custom-bg-charcoal: #212121;
+   --custom-bg-dark: #333333;
+   --custom-bg-white: #fff;
+   --custom-gradient-blue: linear-gradient(to right, #1e3a8a 0%, #2563eb 100%);
+
+   /* text color */
+   --custom-white-text: #fff;
+   --custom-blue-text: #2563eb;
+
+   /* hover gray */
+   --custom-hover-gray: rgba(193, 193, 193, 0.2);
+
+   --gold: #ffd700;
+   --tomato: #ff6347;
+}
