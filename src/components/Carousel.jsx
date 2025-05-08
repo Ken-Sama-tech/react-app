@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import greater_than_img from '../assets/greater-than.png';
 import TruncatedText from './TruncatedText';
-import { Heart, Star } from 'lucide-react';
+import { Heart, Star, Bookmark, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 function Carousel({ data_list }) {
    const [carouselIems, setCarouselItems] = useState([]);
@@ -62,6 +63,17 @@ function Carousel({ data_list }) {
                         <div className="h-[60px] w-full mt-1 md:mt-5 md:h-[70px] ps-1 skeleton-loading"></div>
                         <div className="h-20 w-full text-white mt-1 overflow-hidden md:mt-5 skeleton-loading"></div>
                         <div className="bg-white h-10 w-full mt-1  md:mt-5 skeleton-loading"></div>
+                        <div className="h-auto mt-1 md:mt-5 flex gap-5">
+                           <button
+                              type="button"
+                              className="h-10 w-40 skeleton-loading"
+                           ></button>
+
+                           <button
+                              type="button"
+                              className="h-10 w-40 skeleton-loading"
+                           ></button>
+                        </div>
                      </div>
                      <div className="hidden h-9 w-9 absolute z-2 left-0 top-[50%] transform-[-50%, -50%] !rounded-[50%] lg:left-3 skeleton-loading md:block"></div>
                      <div className="hidden h-9 w-9 absolute z-2 right-0 top-[50%] transform-[-50%, -50%] !rounded-[50%] lg:right-3 skeleton-loading md:block"></div>
@@ -142,7 +154,7 @@ function Carousel({ data_list }) {
                                        />
                                     </div>
 
-                                    <div className="h-10 w-full mt-1 flex items-center md:mt-5 gap-3">
+                                    <div className="h-10 w-full mt-1 flex items-center gap-1 md:mt-5 md:gap-3">
                                        <div className="bg-(--gold) opacity-70 shadow-md h-8 rounded-full w-auto px-5 py-2 flex justify-center items-center gap-2">
                                           <Star color="black" strokeWidth={2} />
                                           <p className="text-md">
@@ -158,6 +170,38 @@ function Carousel({ data_list }) {
                                              {item.favorites}
                                           </p>
                                        </div>
+                                       <div className="bg-(--bright-green) opacity-70 shadow-md h-8 rounded-full m-0 w-auto px-5 py-2 flex justify-center items-center gap-2">
+                                          <p className="text-md text-white text-nowrap">
+                                             Eps: {item.episodes}
+                                          </p>
+                                       </div>
+                                    </div>
+                                    <div className="h-auto mt-1 md:mt-5 flex gap-2 md:gap-5">
+                                       <button
+                                          type="button"
+                                          className=" text-sm h-8 w-30 cursor-pointer bg-[#2563eb] rounded-[5px] hover:brightness-90 transition-all ease-in duration-200 md:h-10 md:w-40 md:text-base"
+                                       >
+                                          <Link
+                                             to="#"
+                                             className="text-white flex w-full h-full justify-center items-center overflow-hidden gap-2"
+                                          >
+                                             Show Detail
+                                             <ChevronRight color="white" />
+                                          </Link>
+                                       </button>
+
+                                       <button
+                                          type="button"
+                                          className="text-sm h-8 w-30 overflow-hidden cursor-pointer relative rounded-[5px] after:transition-opacity after:ease-in-out after:duration-300 after:content-[''] after:absolute after:left-0 after:top-0 after:w-full after:h-full after:opacity-0 after:border after:border-white hover:after:opacity-100 after:rounded-[5px] md:h-10 md:w-40 md:text-base"
+                                       >
+                                          <Link
+                                             to="/manga"
+                                             className="text-white flex w-full h-full justify-center items-center overflow-hidden gap-2"
+                                          >
+                                             <Bookmark color="white" />
+                                             Bookmark
+                                          </Link>
+                                       </button>
                                     </div>
                                  </div>
                               </div>
