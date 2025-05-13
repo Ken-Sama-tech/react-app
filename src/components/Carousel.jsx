@@ -15,7 +15,6 @@ function Carousel({ data_list }) {
       if (data_list.length == 0) return;
       setCarouselItems(data_list.data);
       setIsLoading(false);
-      console.log(data_list.data);
    }, [data_list]);
 
    useEffect(() => {
