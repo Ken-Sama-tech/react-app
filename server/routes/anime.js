@@ -4,7 +4,7 @@ const router = express.Router();
 const baseUrl = 'https://animeapi.skin';
 
 //get episode list
-router.get('/:title', async (req, res) => {
+router.get('/anime/eps/:title', async (req, res) => {
     try {
         const {
             title = null,
@@ -26,7 +26,7 @@ router.get('/:title', async (req, res) => {
 });
 
 //get specific ep
-router.get('/:title/:ep', async (req, res) => {
+router.get('/anime/watch/:title/:ep', async (req, res) => {
     try {
         const {
             title = null,
@@ -56,10 +56,10 @@ router.get('/:title/:ep', async (req, res) => {
 });
 
 //search anime 
-router.get('/search/:keywords', async (req, res) => {
+router.get('/anime/search/:keywords', async (req, res) => {
     try {
         const {
-            keywords = null
+            keywords = ''
         } = req.params
 
         const response = await fetch(`${baseUrl}/search?q=${keywords}`);
@@ -68,7 +68,7 @@ router.get('/search/:keywords', async (req, res) => {
             throw new Error(`Failed to fetch from external source ${response.status}`)
 
         const data = await response.json();
-
+        console.log(data)
         res.json(data);
 
     } catch (err) {

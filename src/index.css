@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 @import './assets/utilities.css';
 
+* {
+   box-sizing: border-box;
+}
+
 /*global vars*/
 :root {
    /* background color */

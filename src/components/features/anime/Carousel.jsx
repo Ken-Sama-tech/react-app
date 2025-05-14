@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import greater_than_img from '../assets/greater-than.png';
-import TruncatedText from './TruncatedText';
+import greater_than_img from '../../../assets/greater-than.png';
+import TruncatedText from '../../TruncatedText';
 import { Heart, Star, Bookmark, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
