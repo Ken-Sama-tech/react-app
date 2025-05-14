@@ -3,6 +3,25 @@ import express from 'express';
 const router = express.Router();
 const baseUrl = 'https://animeapi.skin';
 
+//get trending anime
+router.get('/anime/trending', async (_, res) => {
+    try {
+        const response = await fetch(`${baseUrl}/trending`);
+
+        if (!response.ok)
+            throw new Error(`Failed to fetch trending anime from external source ${response.status}`);
+
+        const data = await response.json();
+
+        res.json(data)
+
+    } catch (err) {
+        res.json({
+            Error: err.message
+        });
+    }
+});
+
 //get episode list
 router.get('/anime/eps/:title', async (req, res) => {
     try {
@@ -68,9 +87,8 @@ router.get('/anime/search/:keywords', async (req, res) => {
             throw new Error(`Failed to fetch from external source ${response.status}`)
 
         const data = await response.json();
-        console.log(data)
-        res.json(data);
 
+        res.json(data);
     } catch (err) {
         res.json({
             'Error': err.message

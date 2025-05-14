@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-function ContentSlider({ children, props = {}, className = '' }) {
+function ContentSlider({ children, params = {}, className = '' }) {
    const [isLoading, setIsLoading] = useState(true);
    const [snapBtn, setSnapBtn] = useState(false);
 
-   const { heading = null, goto = '#', button = false } = props;
+   const { heading = null, goto = '#', button = false } = params;
 
    const scrollRef = useRef(null);
 

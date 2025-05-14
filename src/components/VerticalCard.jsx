@@ -1,18 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import { TimerOff } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function VerticalCard({ className = '', image, goto = '#' }) {
+function VerticalCard({ className = '', params = {} }) {
+   const { image = null, ranking = null, title = '', goto = '#' } = params;
    const [isLoading, setIsLoading] = useState(true);
+   const timeOutRef = useRef(null);
+   const timerIconRef = useRef(null);
 
    useEffect(() => {
-      if (image) setIsLoading(false);
+      let timeOut = setTimeout(() => {
+         timerIconRef.current.classList.remove('hidden');
+         timeOutRef.current.classList.remove('skeleton-loading');
+         timeOutRef.current.innerHTML += `<span class="text-white text-lg font-thin ms-1">Request timed out.</span>`;
+      }, 30000);
+
+      if (image) {
+         setIsLoading(false);
+         clearTimeout(timeOut);
+      }
    }, [isLoading]);
    return (
       <>
          {isLoading && (
             <div
-               className={`h-[300px] w-[220px] skeleton-loading ${className}`}
-            ></div>
+               ref={timeOutRef}
+               className={`h-[300px] w-[220px] shrink-[0] bg-(--custom-bg-charcoal) rounded-[10px] flex items-center px-2 justify-center skeleton-loading ${className}`}
+            >
+               <TimerOff ref={timerIconRef} color="white" className="hidden" />
+            </div>
          )}
          {!isLoading && (
             <div

@@ -1,23 +1,15 @@
 import useFetch from '../hooks/useFetch'
 
 class JikanApi {
+
+    /** 
+     * @param {Object} params - Search parameters.
+     * @param {Function} cb - Callback function to receive the result.
+     * @param {number} params.limit - Maximum number of results to return.
+     * @param {number} params.page - Page number of results.
+     */
     constructor() {
         this.baseUrl = 'https://api.jikan.moe/v4';
-        this.validFilterParameter = [
-            'bypopularity',
-            'favorite',
-            'airing',
-            'upcoming',
-            'tv',
-            'movie',
-            'ova',
-            'special',
-            'ona',
-            'music',
-            'cm',
-            'pv',
-            'tv_special',
-        ];
         this.validRequest = [
             'full',
             'characters',
@@ -32,8 +24,11 @@ class JikanApi {
             'userupdates',
             'recommendations'
         ];
-
     }
+
+    /**
+     * @param {string} params.request - request type
+     */
 
     getAnime = async (params = {}, cb) => {
         const {
@@ -61,13 +56,24 @@ class JikanApi {
         }
     }
 
+    /**
+     * @param {string} params.filter - filter by field (bypopularity, upcoming, airing, favorite)
+     */
+
     getTopAnime = async (params = {}, cb) => {
         const {
             limit = 10, page = 1, filter = 'bypopularity'
         } = params;
 
+        const validFilterParameter = [
+            'bypopularity',
+            'favorite',
+            'airing',
+            'upcoming',
+        ];
+
         try {
-            if (!this.validFilterParameter.includes(filter)) {
+            if (!validFilterParameter.includes(filter)) {
                 console.warn(`Valid filter parameters are: ${JSON.stringify(this.validFilterParameter)}`)
                 throw new Error(`Invalid filter parameter "${filter}"`)
             }
@@ -78,6 +84,34 @@ class JikanApi {
             })
         } catch (error) {
             console.error("Error fetching top anime data:", error.message);
+            return null;
+        }
+    }
+
+    /**
+     * Search for anime using Jikan API.
+     * @param {string} params.query - The search keyword.
+     * @param {boolean} params.sfw - Safe for work filter.
+     * @param {string} params.order - Order by field (e.g. "score", "title", "mal_id"). 
+     * @param {string} params.sort - Sort direction ("desc" or "asc").
+     * 
+     * just check their documentation
+     */
+
+    searchAnime = async (params = {}, cb) => {
+        try {
+            const {
+                query = '', limit = 10, page = 1, sfw = false, order = 'score', sort = 'desc'
+            } = params;
+
+            const url = `${this.baseUrl}/anime?q=${query}&page=${page}&limit=${limit}&order_by=${order}&sort=${sort}&sfw=${sfw}`;
+
+            useFetch(url).then(res => {
+                cb(res)
+                return res;
+            });
+        } catch (error) {
+            console.error("Error", error.message);
             return null;
         }
     }

@@ -4,7 +4,7 @@ import jikanApi from '../lib/api/jikan';
 import Carousel from '../components/features/anime/Carousel';
 import ContentSlider from '../components/ContentSlider';
 import VerticalCard from '../components/VerticalCard';
-import { Heading } from 'lucide-react';
+import animeApi from '../lib/api/anime';
 
 function Anime() {
    const [carouselItems, setCarouselItems] = useState([]);
@@ -19,6 +19,8 @@ function Anime() {
          }
       );
 
+      animeApi.getTrending();
+
       jikanApi.getTopAnime({ page: 1, filter: 'bypopularity' }, (res) => {
          const animeData = JSON.parse(res);
          setTopAnimeList(animeData.data);
@@ -28,15 +30,12 @@ function Anime() {
    return (
       <MainContainer>
          <Carousel data_list={carouselItems} />
-         <ContentSlider
-            props={{ heading: 'Top Anime', button: true }}
-            className=""
-         >
+         <ContentSlider params={{ heading: 'Top Anime', button: true }}>
             {topAnimeList.map((item, i) => {
                return (
                   <VerticalCard
                      key={i}
-                     image={item.images.webp.large_image_url}
+                     params={{ image: item.images.webp.large_image_url }}
                   />
                );
             })}
