@@ -125,8 +125,8 @@ function Carousel({ data_list }) {
                                  <div className="h-full w-[85%] left-10 z-2 absolute top-0 flex flex-col sm:w-[60%] md:w-[50%] lg:w-[40%] lg:left-15 ">
                                     <div className="h-[40px] w-[60%] bg-(image:--custom-gradient-blue) flex items-center mt-2 ms-1 rounded md:mt-20 md:h-[50px] sm:w-[250px]">
                                        <p className="ms-2 font-medium text-white capitalize text-based md:text-lg md:ms-5">
-                                          #{i + 1} most popular{' '}
-                                          {item.genres[0].type}
+                                          #{i + 1} most popular
+                                          {' ' + item.genres[0].type}
                                        </p>
                                     </div>
 

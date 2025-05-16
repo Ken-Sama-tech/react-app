@@ -6,6 +6,7 @@ class AnimeApi {
     }
 
     getTrending = async (cb) => {
+
         const url = `${this.baseUrl}/trending`;
 
         useFetch(url).then(res => {

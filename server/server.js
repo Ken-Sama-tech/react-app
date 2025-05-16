@@ -1,5 +1,5 @@
 import express from 'express';
-import animeRouter from './routes/anime.js';
+import animeRouter from './routes/anime.route.js';
 import cors from 'cors';
 
 const app = express();

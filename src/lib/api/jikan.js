@@ -92,19 +92,21 @@ class JikanApi {
      * Search for anime using Jikan API.
      * @param {string} params.query - The search keyword.
      * @param {boolean} params.sfw - Safe for work filter.
-     * @param {string} params.order - Order by field (e.g. "score", "title", "mal_id"). 
      * @param {string} params.sort - Sort direction ("desc" or "asc").
      * 
-     * just check their documentation
+     * just check their documentation bruhhhh
      */
 
     searchAnime = async (params = {}, cb) => {
         try {
             const {
-                query = '', limit = 10, page = 1, sfw = false, order = 'score', sort = 'desc'
+                query = '', limit = 10, page = 1, sfw = false, sort = 'desc'
             } = params;
 
-            const url = `${this.baseUrl}/anime?q=${query}&page=${page}&limit=${limit}&order_by=${order}&sort=${sort}&sfw=${sfw}`;
+            if (!query)
+                return;
+
+            const url = `${this.baseUrl}/anime?q=${query}&limit=${limit}&page=${page}&sort=${sort}&sfw=${sfw}`;
 
             useFetch(url).then(res => {
                 cb(res)

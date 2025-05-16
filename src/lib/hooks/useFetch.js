@@ -21,8 +21,10 @@ const useFetch = async (url) => {
     } catch (error) {
 
         if (error.name == 'AbortError') {
-            console.error('Request timed out.')
-            return null;
+            console.error('Request timed out.');
+            return {
+                timeOutError: 'Request timed out.'
+            };
         }
 
         console.error("Fetch error:", error.message);
