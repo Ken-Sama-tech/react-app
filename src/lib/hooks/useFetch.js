@@ -1,4 +1,5 @@
 const useFetch = async (url) => {
+
     const controller = new AbortController();
 
     const timeOut = setTimeout(() => {
@@ -16,8 +17,7 @@ const useFetch = async (url) => {
             throw new Error(`HTTP error! status: ${response.status}`);
 
         const data = await response.json();
-        const formattedData = JSON.stringify(data, null, 2);
-        return formattedData;
+        return data;
     } catch (error) {
 
         if (error.name == 'AbortError') {

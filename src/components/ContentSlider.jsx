@@ -7,7 +7,12 @@ function ContentSlider({ children, params = {}, className = '' }) {
    const [isLoading, setIsLoading] = useState(true);
    const [snapBtn, setSnapBtn] = useState(false);
 
-   const { heading = null, goto = '#', button = false } = params;
+   const {
+      heading = null,
+      goto = '#',
+      button = false,
+      hasMore = false,
+   } = params;
 
    const scrollRef = useRef(null);
 
@@ -31,17 +36,11 @@ function ContentSlider({ children, params = {}, className = '' }) {
             <div className="flex flex-col w-[98%] items-center relative">
                {isLoading && (
                   <>
-                     <div className="w-full flex justify-between  ">
+                     <div className="w-full flex justify-between overflow-hidden">
                         <div className="h-8 w-60 skeleton-loading"></div>
-                        <div className="w-20 self-end h-8 skeleton-loading"></div>
-                     </div>
-                     <div className="mt-3 h-auto w-[95%] flex gap-6">
-                        <VerticalCard />
-                        <VerticalCard />
-                        <VerticalCard />
-                        <VerticalCard />
-                        <VerticalCard />
-                        <VerticalCard />
+                        {hasMore && (
+                           <div className="w-20 self-end h-8 skeleton-loading"></div>
+                        )}
                      </div>
                   </>
                )}
@@ -53,12 +52,14 @@ function ContentSlider({ children, params = {}, className = '' }) {
                            {heading}
                         </h2>
 
-                        <Link
-                           to={goto}
-                           className="text-nowrap text-white text-sm me-1"
-                        >
-                           View All
-                        </Link>
+                        {hasMore && (
+                           <Link
+                              to={goto}
+                              className="text-nowrap text-white text-sm me-1"
+                           >
+                              View All
+                           </Link>
+                        )}
                      </div>
 
                      <div

@@ -42,15 +42,13 @@ function TruncatedText({
    return (
       <p className={className}>
          {displayText}...
-         {expandable ? (
+         {expandable && (
             <Link
                to={goTo}
                className="text-(--custom-blue-text) font-semibold text-lg text-nowrap"
             >
                See More
             </Link>
-         ) : (
-            ''
          )}
       </p>
    );
