@@ -13,7 +13,6 @@ function Anime() {
    const [trendingAnime, setTrendingAnime] = useState([]);
    const [isReadyToLoad, setIsReadyToLoad] = useState(false);
    const [isCompleted, setIsCompleted] = useState(false);
-   const [epsNumber, setEpsNumber] = useState([]);
 
    useEffect(() => {
       jikanApi.getTopAnime(
@@ -31,7 +30,6 @@ function Anime() {
          anime.forEach((a) => {
             animeApi.searchAnime({ query: a.title }, (res) => {
                currentCount++;
-               if (!res) return;
                const data = res[0];
                setTrendingAnime((prev) => [...prev, data]);
 
@@ -51,37 +49,39 @@ function Anime() {
          for (let i = 0; i < trendingAnime.length; i++) {
             const anime = trendingAnime[i];
 
-            jikanApi.searchAnime({ query: anime.title2, limit: 1 }, (res) => {
-               if (!res) return;
+            jikanApi.searchAnime({ query: anime.title2 }, (res) => {
                const response = res;
                const result = response.data[0];
-
                if (
                   compareTwoStrings(anime.title, result.title) > 0.8 ||
                   compareTwoStrings(anime.title2, result.title) > 0.8
                ) {
-                  animeApi.getEpisodes(
-                     { title: anime.title, alt: anime.title2 },
-                     (res) => {
-                        if (!res) return;
-                        const response = res;
-                        const eps = response.length;
-                        setEpsNumber((prev) => [...prev, eps]);
-                     }
-                  );
-                  setTrendingAnimeList((prev) => [...prev, result]);
-                  validAnimeCount++;
+                  animeApi.getEpisodes({ query: anime.title }, (res) => {
+                     if (!res) return;
+                     const response = res;
+                     const eps = response.length;
+                     console.log(anime.title + ' has ' + eps + ' eps');
+
+                     setTrendingAnimeList((prev) => [
+                        ...prev,
+                        { data: result, eps: eps },
+                     ]);
+                     validAnimeCount++;
+                  });
                }
             });
 
             if (validAnimeCount >= 6) setIsReadyToLoad(true);
 
-            await delay(1000);
+            if (i <= 3) {
+               await delay(0);
+            } else {
+               await delay(1000);
+            }
          }
       };
       loadTrendingAnime();
    }, [isCompleted]);
-
    return (
       <MainContainer>
          <Carousel data_list={carouselItems} />
@@ -104,16 +104,18 @@ function Anime() {
 
             {isReadyToLoad &&
                trendingAnimeList.map((item, i) => {
+                  const data = item.data;
+                  const eps = item.eps;
                   return (
                      <VerticalCard
                         key={i}
                         params={{
-                           image: item.images.webp.large_image_url,
-                           title: item.title,
-                           score: item.score,
-                           entry: `${
-                              epsNumber[i] ? 'Eps ' + epsNumber[i] : ''
-                           }`,
+                           image: data.images.webp.large_image_url,
+                           title: data.title_english
+                              ? data.title_english
+                              : data.title,
+                           score: data.score,
+                           entry: `${eps ? `Ep ${eps}` : ''}`,
                         }}
                      />
                   );

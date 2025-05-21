@@ -1,21 +1,28 @@
 import { BadgeAlert } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import CardTooltip from './CardTooltip';
 
 function VerticalCard({ className = '', params = {} }) {
-   let {
+   const {
       image = null,
       ranking = null,
       score = null,
       title = '',
       entry = null,
+      genres = [null],
+      status = '',
+      alt = '',
+      type = '',
+
       goto = '#',
    } = params;
+
    const [isLoading, setIsLoading] = useState(true);
    const [hasImage, setHasImage] = useState(false);
 
    useEffect(() => {
-      if (image || ranking || score || title || entry) {
+      if (image || score || title || entry) {
          if (image) setHasImage(true);
          setIsLoading(false);
       }
@@ -30,7 +37,7 @@ function VerticalCard({ className = '', params = {} }) {
          )}
          {!isLoading && (
             <div
-               className={`h-[300px] w-[220px] shadow-xl/20 rounded-[10px] snap-center overflow-hidden grow-[0] shrink-[0] relative ${className}`}
+               className={`h-[300px] w-[220px] overflow-hidden shadow-xl/20 rounded-[10px] snap-center overflow-hidden grow-[0] shrink-[0] relative ${className}`}
             >
                <Link to={goto} className="h-full w-full block">
                   {!hasImage && (

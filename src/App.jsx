@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar.jsx';
 import { Routes, Route } from 'react-router-dom';
 import Anime from './pages/anime.jsx';
+import Manga from './pages/Manga.jsx';
 
 function App() {
    const [isLoading, setIsLoading] = useState(true);
@@ -33,7 +34,7 @@ function App() {
                <Navbar />
                <Routes>
                   <Route path="/" element={<Anime />}></Route>
-                  <Route path="/manga" element={<h1>Manga</h1>}></Route>
+                  <Route path="/manga" element={<Manga />}></Route>
                   <Route path="/webtoon" element={<h1>Webtoon</h1>}></Route>
                   <Route path="/Novel" element={<h1>Novel</h1>}></Route>
                </Routes>

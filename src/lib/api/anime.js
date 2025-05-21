@@ -1,4 +1,7 @@
 import useFetch from "../hooks/useFetch";
+import {
+    compareTwoStrings
+} from "string-similarity";
 
 class AnimeApi {
     constructor() {
@@ -16,66 +19,27 @@ class AnimeApi {
     }
 
     getEpisodes = async (params = {}, cb) => {
-
-        const {
-            title = '', alt = '', repeated = false, retry = 2,
+        let {
+            query = '',
         } = params;
-
-        let query = repeated ? alt : title;
 
         if (query.includes('\\')) {
             query = query.replace(/\\/g, '');
         }
 
-        query = encodeURIComponent(query);
+        const url = `${this.baseUrl}/eps/${encodeURIComponent(query)}`;
 
-        const url = `${this.baseUrl}/eps/${query}`;
-
-        try {
-            const response = await fetch(url);
-
-            if (!response)
-                return;
-
-            if (!response) {
-                if (retry > 1)
-                    this.getEpisodes({
-                        alt: alt,
-                        repeated: true,
-                        retry: retry - 1
-                    }, res => {
-                        cb(res)
-                        return res;
-                    })
-
-                return;
-            }
-
-            if (!response.ok) {
-                if (response.status == 404) {
-                    throw new Error(`No episode found for ${query}`)
-                } else {
-                    throw new Error('HTTP error! status: ' + response.status)
-                }
-            }
-
-            const data = await response.json();
-            console.log(data)
-            cb(data)
-            return data;
-        } catch (err) {
-            cb('unknown')
-            console.error({
-                Error: err.message
-            })
-        }
-
+        useFetch(url).then(res => {
+            cb(res);
+            return res;
+        })
     }
 
-    searchAnime = async (params = {}, cb) => {
+    searchAnime = async (params = {}, cb, settings = {}) => {
         let {
-            query = '',
-        } = params
+            query = ''
+        } = params;
+
 
         if (query.includes('\\')) {
             query = query.replace(/\\/g, '');
@@ -86,6 +50,8 @@ class AnimeApi {
         const url = `${this.baseUrl}/search/${query}`;
 
         useFetch(url).then(res => {
+            if (!res)
+                return;
             cb(res);
             return res;
         })

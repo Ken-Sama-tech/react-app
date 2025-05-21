@@ -1,3 +1,6 @@
+import {
+    compareTwoStrings
+} from 'string-similarity';
 import useFetch from '../hooks/useFetch'
 
 class JikanApi {
@@ -100,15 +103,17 @@ class JikanApi {
     searchAnime = async (params = {}, cb) => {
         try {
             const {
-                query = '', limit = 10, page = 1, sfw = false, sort = 'desc'
+                query = '', limit = 1, page = 1, sfw = false, sort = 'asc',
             } = params;
 
             if (!query)
                 return;
 
-            const url = `${this.baseUrl}/anime?q=${query}&limit=${limit}&page=${page}&sort=${sort}&sfw=${sfw}`;
+            const url = `${this.baseUrl}/anime?q=${encodeURIComponent(query)}&limit=${limit}&page=${page}&sort=${sort}&sfw=${sfw}`;
 
             useFetch(url).then(res => {
+                if (!res)
+                    return;
                 cb(res)
                 return res;
             });
