@@ -29,23 +29,60 @@
 }
 
 .rm-scrollbar::-webkit-scrollbar {
-   display: none;
+   display: none !important;
+}
+
+.mk-scrollbar {
+   &::-webkit-scrollbar {
+      width: 0.7rem !important;
+      height: 0.7rem !important;
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: var(--elusive-blue) !important;
+      border-radius: 100vw !important;
+   }
+
+   &&::-webkit-scrollbar-thumb:hover {
+      cursor: pointer !important;
+   }
+
+   &::-webkit-scrollbar-track {
+      background-color: var(--custom-bg-charcoal) !important;
+      border-radius: 100vw !important;
+      margin-inline: 0 !important;
+   }
 }
 
 .skeleton-loading {
-   border-radius: 8px;
+   border-radius: 0.7rem;
    opacity: 0.7;
    animation: skeleton-loading 1s ease-in-out infinite alternate;
 }
 
 .spinner {
-   border: 5px solid #2563eb;
+   border: 5px solid var(--blue);
    border-top: 5px solid transparent;
    border-radius: 50%;
    width: 50px;
    height: 50px;
    animation: spin 1s linear infinite;
    margin: 100px auto;
+}
+
+.fade-in {
+   animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+   0% {
+      opacity: 0;
+      transform: scale(0.95);
+   }
+   100% {
+      opacity: 1;
+      transform: scale(1);
+   }
 }
 
 @keyframes spin {

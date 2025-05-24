@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import './assets/utilities.css';
+@import './assets/utilities.scss';
 
 * {
    box-sizing: border-box;
@@ -23,4 +23,7 @@
    --gold: #ffd700;
    --tomato: #ff6347;
    --bright-green: #4caf50;
+   --rose: #e35d6a;
+   --blue: #2563eb;
+   --elusive-blue: #2563ebaa;
 }

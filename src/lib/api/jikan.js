@@ -2,6 +2,9 @@ import {
     compareTwoStrings
 } from 'string-similarity';
 import useFetch from '../hooks/useFetch'
+import {
+    use
+} from 'react';
 
 class JikanApi {
 
@@ -96,20 +99,19 @@ class JikanApi {
      * @param {string} params.query - The search keyword.
      * @param {boolean} params.sfw - Safe for work filter.
      * @param {string} params.sort - Sort direction ("desc" or "asc").
-     * 
      * just check their documentation bruhhhh
      */
 
     searchAnime = async (params = {}, cb) => {
         try {
             const {
-                query = '', limit = 1, page = 1, sfw = false, sort = 'asc',
+                query = '', limit = null, page = null, sfw = false, sort = 'asc',
             } = params;
 
             if (!query)
                 return;
 
-            const url = `${this.baseUrl}/anime?q=${encodeURIComponent(query)}&limit=${limit}&page=${page}&sort=${sort}&sfw=${sfw}`;
+            const url = `${this.baseUrl}/anime?q=${encodeURIComponent(query)}${limit ? `&limit=${limit}`: ''}${page ? `&page=${page}`:''}${sort ? `&sort=${sort}`:''}&sfw=${sfw}`;
 
             useFetch(url).then(res => {
                 if (!res)
@@ -121,6 +123,35 @@ class JikanApi {
             console.error("Error", error.message);
             return null;
         }
+    }
+
+    getAllAnime = async (params = {}, cb) => {
+        const {
+            limit = null, page = null
+        } = params;
+
+        const url = `${this.baseUrl}/top/anime?limit=${limit ? `&limit=${limit}`: ''}${page ? `&page=${page}`: ''}`;
+        useFetch(url).then(res => {
+            if (!res)
+                return;
+            cb(res)
+            return res;
+        });
+    }
+
+    getGenres = async (params = {}, cb) => {
+        const {
+            filter = null
+        } = params;
+        const validFilterParameters = ['genres', 'explicit_genres', 'themes', 'demographics'];
+        const url = `${this.baseUrl}/genres/anime?${validFilterParameters.includes(filter) ? `filter=${filter}`: ''}`
+
+        useFetch(url).then(res => {
+            if (!res)
+                return;
+            cb(res)
+            return res;
+        });
     }
 }
 

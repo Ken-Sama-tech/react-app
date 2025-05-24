@@ -33,9 +33,8 @@ function App() {
             <>
                <Navbar />
                <Routes>
-                  <Route path="/" element={<Anime />}></Route>
+                  <Route path="/anime" element={<Anime />}></Route>
                   <Route path="/manga" element={<Manga />}></Route>
-                  <Route path="/webtoon" element={<h1>Webtoon</h1>}></Route>
                   <Route path="/Novel" element={<h1>Novel</h1>}></Route>
                </Routes>
             </>

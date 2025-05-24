@@ -2,10 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
 const pages = [
-   { path: '/', label: 'Anime' },
+   { path: '/anime', label: 'Anime' },
    { path: '/manga', label: 'Manga' },
-   { path: 'webtoon', label: 'Webtoon' },
-   { path: 'novel', label: 'Novel' },
+   { path: '/novel', label: 'Novel' },
 ];
 
 const dropdownOptions = [
@@ -78,7 +77,7 @@ function Navbar() {
          {/* nav links  */}
          <ul
             className="flex flex-col gap-1 text-start opacity-0 z-[-1] absolute -left-[1000px] w-50 top-10 transition-left h-screen duration-200 ease-in-out bg-(--custom-bg-charcoal)
-            lg:opacity-100 lg:z-0 lg:relative lg:left-[0] lg:flex-row lg:w-80 lg:top-0 lg:justify-evenly lg:items-center lg:ms-5 lg:h-auto"
+            lg:opacity-100 lg:z-0 lg:relative lg:left-[0] lg:flex-row lg:w-60 lg:top-0 lg:justify-evenly lg:items-center lg:ms-5 lg:h-auto"
             ref={navbarMenuRef}
          >
             {pages.map((page, i) => {

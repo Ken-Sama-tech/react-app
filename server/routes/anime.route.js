@@ -23,11 +23,11 @@ router.get('/anime/trending', async (_, res) => {
 });
 
 //get episode list
-router.get('/anime/eps/:title', async (req, res) => {
+router.get('/anime/eps/', async (req, res) => {
     try {
         const {
             title = null,
-        } = req.params;
+        } = req.query;;
 
         const response = await fetch(`${baseUrl}/episodes?title=${title}`);
 
@@ -45,12 +45,12 @@ router.get('/anime/eps/:title', async (req, res) => {
 });
 
 //get specific ep
-router.get('/anime/watch/:title/:ep', async (req, res) => {
+router.get('/anime/watch/', async (req, res) => {
     try {
         const {
             title = null,
                 ep = null
-        } = req.params;
+        } = req.query;;
 
         const response = await fetch(`${baseUrl}/episodes?title=${title}`);
 
@@ -75,11 +75,11 @@ router.get('/anime/watch/:title/:ep', async (req, res) => {
 });
 
 //search anime 
-router.get('/anime/search/:keywords', async (req, res) => {
+router.get('/anime/search/', async (req, res) => {
     try {
         const {
             keywords = ''
-        } = req.params
+        } = req.query;
 
         const response = await fetch(`${baseUrl}/search?q=${keywords}`);
 

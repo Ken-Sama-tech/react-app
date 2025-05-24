@@ -27,7 +27,7 @@ class AnimeApi {
             query = query.replace(/\\/g, '');
         }
 
-        const url = `${this.baseUrl}/eps/${encodeURIComponent(query)}`;
+        const url = `${this.baseUrl}/eps?title=${encodeURIComponent(query)}`;
 
         useFetch(url).then(res => {
             cb(res);
@@ -47,7 +47,7 @@ class AnimeApi {
 
         query = encodeURIComponent(query);
 
-        const url = `${this.baseUrl}/search/${query}`;
+        const url = `${this.baseUrl}/search?keywords=${query}`;
 
         useFetch(url).then(res => {
             if (!res)
