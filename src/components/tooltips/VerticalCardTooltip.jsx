@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React from 'react';
 
 function CardTooltip({ data = {}, className = '' }) {
    const {
@@ -14,7 +13,7 @@ function CardTooltip({ data = {}, className = '' }) {
    } = data;
    return (
       <div
-         className={`absolute h-[220px] w-[350px] top-0 gap-2 flex flex-col bg-black/40 backdrop-blur-md rounded-lg p-4 shadow-md z-3 ${className} overflow-y-auto overflow-x-hidden rm-scrollbar`}
+         className={`absolute h-[220px] w-[350px] top-0 gap-2 flex flex-col bg-black/40 backdrop-blur-md rounded-lg p-4 shadow-md z-3 ${className} cursor-pointer overflow-y-auto overflow-x-hidden rm-scrollbar`}
       >
          <p className="text-lg font-semibold text-white w-full">{title}</p>
 

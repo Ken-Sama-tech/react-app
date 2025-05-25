@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import VerticalCard from './VerticalCard';
+import VerticalCard from '../cards/VerticalCard';
 
 function ContentSlider({ children, params = {}, className = '' }) {
    const [isLoading, setIsLoading] = useState(true);
@@ -15,6 +15,7 @@ function ContentSlider({ children, params = {}, className = '' }) {
       button = false,
       hasMore = false,
       vertical = false,
+      sectionId = '',
    } = params;
 
    const container = useRef(null);
@@ -53,7 +54,7 @@ function ContentSlider({ children, params = {}, className = '' }) {
       }
    }, [isLoading, children]);
    return (
-      <section aria-label="content slider">
+      <section className="bg-(--custom-bg-dark)" id={sectionId}>
          <div className="h-auto w-full flex justify-center items-center py-3">
             <div className="flex flex-col items-center relative w-[98%]">
                <div className="w-full flex items-center justify-between">

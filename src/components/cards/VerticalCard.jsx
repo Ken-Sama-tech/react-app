@@ -1,7 +1,7 @@
 import { BadgeAlert, Play, TimerOff } from 'lucide-react';
 import React, { use, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import CardTooltip from './CardTooltip';
+import CardTooltip from '../tooltips/VerticalCardTooltip';
 
 function VerticalCard({ className = '', params = {}, settings = {} }) {
    const {
@@ -71,9 +71,9 @@ function VerticalCard({ className = '', params = {}, settings = {} }) {
       const rect = card.current?.getBoundingClientRect();
 
       if (rect.left < window.innerWidth / 2) {
-         setTooltipPosition('left-[102%]');
+         setTooltipPosition('left-[100%]');
       } else {
-         setTooltipPosition('right-[102%]');
+         setTooltipPosition('right-[100%]');
       }
 
       if (window.innerWidth < 1024) {

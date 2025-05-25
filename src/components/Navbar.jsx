@@ -131,7 +131,7 @@ function Navbar() {
                      <Link
                         to={option.path}
                         key={i}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-(--custom-hover-gray) text-white"
+                        className="block px-4 py-2 text-sm hover:bg-(--custom-hover-gray) text-white"
                      >
                         {option.label}
                      </Link>

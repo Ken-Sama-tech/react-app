@@ -1,11 +1,12 @@
 import React, { use, useEffect, useRef, useState } from 'react';
-import MainContainer from '../components/MainContainer';
+import MainContainer from '../components/containers/MainContainer';
 import jikanApi from '../lib/api/jikan';
-import Carousel from '../components/features/anime/Carousel';
-import ContentSlider from '../components/ContentSlider';
-import VerticalCard from '../components/VerticalCard';
+import Carousel from '../features/anime/components/Carousel';
+import ContentSlider from '../components/containers/ContentSlider';
+import VerticalCard from '../components/cards/VerticalCard';
 import animeApi from '../lib/api/anime';
 import { compareTwoStrings } from 'string-similarity';
+import FilterByGenre from '../components/containers/FilterByGenre';
 
 function Anime() {
    const [carouselItems, setCarouselItems] = useState([]);
@@ -14,6 +15,7 @@ function Anime() {
    const [upcomingAnimeList, setUpcomingAnimeList] = useState([]);
    const [isReadyToload, setIsReadyToload] = useState(false);
    const [allAnimeList, setAllAnimeList] = useState([]);
+   const [genreList, setGenreList] = useState([]);
    const [updateLocalStorage, setUpdateLocalStorage] = useState(false);
 
    useEffect(() => {
@@ -41,6 +43,7 @@ function Anime() {
 
             jikanApi.searchAnime({ query: anime.title2, limit: 5 }, (res) => {
                const response = [];
+
                res.data.filter((item) => {
                   if (
                      compareTwoStrings(anime.title, item.title) >= 0.8 ||
@@ -63,8 +66,7 @@ function Anime() {
 
                animeApi.getEpisodes({ query: anime.title }, (res) => {
                   if (!res) return;
-                  const response = res;
-                  const eps = response.length;
+                  const eps = res.length;
                   setTrendingAnimeList((prev) => [
                      ...prev,
                      { data: result, eps: eps },
@@ -156,6 +158,19 @@ function Anime() {
             localStorage.setItem('allAnimeList', JSON.stringify(anime.data));
          });
       }
+
+      const animeGenresStorage = localStorage.getItem('animeGenres');
+
+      if (allAnimeListStorage && !updateLocalStorage) {
+         const genres = JSON.parse(animeGenresStorage);
+         setGenreList(genres);
+      } else {
+         jikanApi.getGenres({}, (res) => {
+            const genres = res.data.map((genre) => genre.name);
+            setGenreList(genres);
+            localStorage.setItem('animeGenres', JSON.stringify(genres));
+         });
+      }
    }, []);
 
    return (
@@ -165,6 +180,7 @@ function Anime() {
             params={{
                heading: 'Trending Now',
                button: true,
+               sectionId: 'trending-now',
             }}
          >
             {isReadyToload &&
@@ -199,6 +215,7 @@ function Anime() {
                heading: 'Most Popular',
                button: true,
                hasMore: true,
+               sectionId: 'most-popular',
             }}
          >
             {mostPopularAnimeList.length > 6 &&
@@ -233,6 +250,7 @@ function Anime() {
                heading: 'Upcoming Next Season',
                button: true,
                hasMore: true,
+               sectionId: 'upcoming-next-season',
             }}
          >
             {upcomingAnimeList.length > 6 &&
@@ -265,6 +283,7 @@ function Anime() {
                button: true,
                hasMore: true,
                vertical: true,
+               sectionId: 'all-anime',
             }}
             className="mk-scrollbar !gap-x-4"
          >
@@ -293,6 +312,14 @@ function Anime() {
                   );
                })}
          </ContentSlider>
+         <FilterByGenre
+            params={{
+               heading: 'Filter Anime by Genre',
+               genres: genreList,
+               sectionId: 'filter-by-genre',
+            }}
+            className="!w-[95%] "
+         />
       </MainContainer>
    );
 }

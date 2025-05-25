@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import jikanApi from '../lib/api/jikan';
+import FilterByGenre from '../components/containers/FilterByGenre';
+import HyperLinkButton from '../components/buttons/HyperLinkButton';
 
 function Manga() {
-   jikanApi.getGenres({}, (res) => {
-      console.log(res);
-   });
-   return <div>Manga</div>;
+   const [genreList, setGenreList] = useState([]);
+
+   useEffect(() => {
+      jikanApi.getGenres({}, (res) => {
+         const genres = res.data.map((genre) => genre.name);
+         setGenreList(genres);
+      });
+   }, []);
+   console.log(genreList);
+   return (
+      <div>
+         <FilterByGenre
+            params={{ genres: genreList, heading: 'Filter Anime by Genre' }}
+         />
+      </div>
+   );
 }
 
 export default Manga;
