@@ -83,94 +83,124 @@ function Anime() {
          }
       };
 
-      jikanApi.getTopAnime(
-         { limit: 5, page: 1, filter: 'bypopularity' },
-         (res) => {
-            const animeData = res;
-            setCarouselItems(animeData);
-         }
-      );
+      const loadBySequence = async () => {
+         const carouselItemsStorage = localStorage.getItem('carouselItems');
 
-      animeApi.getTrending((res) => {
-         const anime = res;
-         const trendingAnimeCount = anime.length;
-         let currentCount = 1;
-         anime.forEach((a) => {
-            animeApi.searchAnime({ query: a.title }, (res) => {
-               currentCount++;
-               const data = res[0];
-               trendingAnimePlaceholder.push(data);
-
-               if (currentCount == trendingAnimeCount) {
-                  loadTrendingAnime();
+         if (carouselItemsStorage && !updateLocalStorage) {
+            const carouselItems = JSON.parse(carouselItemsStorage);
+            setCarouselItems(carouselItems);
+         } else {
+            jikanApi.getTopAnime(
+               { limit: 5, page: 1, filter: 'bypopularity' },
+               (res) => {
+                  const animeData = res;
+                  setCarouselItems(animeData);
+                  localStorage.setItem(
+                     'carouselItems',
+                     JSON.stringify(animeData)
+                  );
                }
+            );
+         }
+
+         await delay(1000);
+         const popularListStorage = localStorage.getItem(
+            'mostPopularAnimeList'
+         );
+
+         if (popularListStorage && !updateLocalStorage) {
+            const popularList = JSON.parse(popularListStorage);
+            setMostPopularAnimeList(popularList);
+         } else {
+            jikanApi.getTopAnime(
+               { limit: 20, page: 1, filter: 'bypopularity' },
+               (res) => {
+                  const anime = res;
+                  setMostPopularAnimeList(anime.data);
+                  localStorage.setItem(
+                     'mostPopularAnimeList',
+                     JSON.stringify(anime.data)
+                  );
+               }
+            );
+         }
+
+         await delay(1000);
+
+         const upcomingListStorage = localStorage.getItem('upcomingAnimeList');
+
+         if (upcomingListStorage && !updateLocalStorage) {
+            const upcomingList = JSON.parse(upcomingListStorage);
+            setUpcomingAnimeList(upcomingList);
+         } else {
+            jikanApi.getTopAnime(
+               { limit: 20, page: 1, filter: 'upcoming' },
+               (res) => {
+                  const anime = res;
+                  setUpcomingAnimeList(anime.data);
+                  localStorage.setItem(
+                     'upcomingAnimeList',
+                     JSON.stringify(anime.data)
+                  );
+               }
+            );
+         }
+
+         await delay(1000);
+
+         const allAnimeListStorage = localStorage.getItem('allAnimeList');
+
+         if (allAnimeListStorage && !updateLocalStorage) {
+            const allAnimeList = JSON.parse(allAnimeListStorage);
+            setAllAnimeList(allAnimeList);
+            console.log(allAnimeList);
+         } else {
+            jikanApi.getAllAnime({ page: 1, limit: 24 }, (res) => {
+               const anime = res;
+               console.log(anime);
+               setAllAnimeList(anime.data);
+               localStorage.setItem('allAnimeList', JSON.stringify(anime.data));
+            });
+         }
+
+         await delay(1000);
+
+         const animeGenresStorage = localStorage.getItem('animeGenres');
+
+         if (animeGenresStorage && !updateLocalStorage) {
+            const genres = JSON.parse(animeGenresStorage);
+            setGenreList(genres);
+            console.log(genres);
+         } else {
+            jikanApi.getGenres({}, (res) => {
+               const genres = res.data.map((genre) => genre.name);
+               console.log(genres);
+               setGenreList(genres);
+               localStorage.setItem('animeGenres', JSON.stringify(genres));
+            });
+         }
+
+         await delay(1000);
+
+         animeApi.getTrending((res) => {
+            const anime = res;
+            const trendingAnimeCount = anime.length;
+            let currentCount = 1;
+            anime.forEach((a) => {
+               animeApi.searchAnime({ query: a.title }, (res) => {
+                  currentCount++;
+                  const data = res[0];
+                  trendingAnimePlaceholder.push(data);
+
+                  if (currentCount == trendingAnimeCount) {
+                     loadTrendingAnime();
+                  }
+               });
             });
          });
-      });
+      };
 
-      const popularListStorage = localStorage.getItem('mostPopularAnimeList');
-
-      if (popularListStorage && !updateLocalStorage) {
-         const popularList = JSON.parse(popularListStorage);
-         setMostPopularAnimeList(popularList);
-      } else {
-         jikanApi.getTopAnime(
-            { limit: 20, page: 1, filter: 'bypopularity' },
-            (res) => {
-               const anime = res;
-               setMostPopularAnimeList(anime.data);
-               localStorage.setItem(
-                  'mostPopularAnimeList',
-                  JSON.stringify(anime.data)
-               );
-            }
-         );
-      }
-
-      const upcomingListStorage = localStorage.getItem('upcomingAnimeList');
-
-      if (upcomingListStorage && !updateLocalStorage) {
-         const upcomingList = JSON.parse(upcomingListStorage);
-         setUpcomingAnimeList(upcomingList);
-      } else {
-         jikanApi.getTopAnime(
-            { limit: 20, page: 1, filter: 'upcoming' },
-            (res) => {
-               const anime = res;
-               setUpcomingAnimeList(anime.data);
-               localStorage.setItem(
-                  'upcomingAnimeList',
-                  JSON.stringify(anime.data)
-               );
-            }
-         );
-      }
-
-      const allAnimeListStorage = localStorage.getItem('allAnimeList');
-
-      if (allAnimeListStorage && !updateLocalStorage) {
-         const allAnimeList = JSON.parse(allAnimeListStorage);
-         setAllAnimeList(allAnimeList);
-      } else {
-         jikanApi.getAllAnime({ page: 1, limit: 24 }, (res) => {
-            const anime = res;
-            setAllAnimeList(anime.data);
-            localStorage.setItem('allAnimeList', JSON.stringify(anime.data));
-         });
-      }
-
-      const animeGenresStorage = localStorage.getItem('animeGenres');
-
-      if (allAnimeListStorage && !updateLocalStorage) {
-         const genres = JSON.parse(animeGenresStorage);
-         setGenreList(genres);
-      } else {
-         jikanApi.getGenres({}, (res) => {
-            const genres = res.data.map((genre) => genre.name);
-            setGenreList(genres);
-            localStorage.setItem('animeGenres', JSON.stringify(genres));
-         });
-      }
+      loadBySequence();
    }, []);
 
    return (
@@ -184,7 +214,7 @@ function Anime() {
             }}
          >
             {isReadyToload &&
-               trendingAnimeList.map((item, i) => {
+               trendingAnimeList?.map((item, i) => {
                   const data = item.data;
                   const eps = item.eps;
                   return (
@@ -219,7 +249,7 @@ function Anime() {
             }}
          >
             {mostPopularAnimeList.length > 6 &&
-               mostPopularAnimeList.map((item, i) => {
+               mostPopularAnimeList?.map((item, i) => {
                   return (
                      <VerticalCard
                         key={i}
@@ -254,7 +284,7 @@ function Anime() {
             }}
          >
             {upcomingAnimeList.length > 6 &&
-               upcomingAnimeList.map((item, i) => {
+               upcomingAnimeList?.map((item, i) => {
                   return (
                      <VerticalCard
                         key={i}
@@ -282,17 +312,16 @@ function Anime() {
                heading: 'All Anime',
                button: true,
                hasMore: true,
-               vertical: true,
+               // vertical: true,
                sectionId: 'all-anime',
             }}
-            className="mk-scrollbar !gap-x-4"
+            className="!justify-evenly"
          >
-            {allAnimeList.length > 6 &&
+            {allAnimeList?.length > 6 &&
                allAnimeList.map((item, i) => {
                   return (
                      <VerticalCard
                         key={i}
-                        className="!w-[150px] !h-[250px] sm:!h-[300px] sm:!w-[220px]"
                         params={{
                            image: item.images.webp.large_image_url,
                            title: item.title_english
@@ -318,7 +347,7 @@ function Anime() {
                genres: genreList,
                sectionId: 'filter-by-genre',
             }}
-            className="!w-[95%] "
+            className="!w-[95%]"
          />
       </MainContainer>
    );

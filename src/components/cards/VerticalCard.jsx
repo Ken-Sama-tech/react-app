@@ -94,7 +94,7 @@ function VerticalCard({ className = '', params = {}, settings = {} }) {
          {isLoading && (
             <div
                ref={errorCard}
-               className={`h-[300px] w-[220px] shrink-[0] bg-(--custom-bg-charcoal) rounded-[10px] gap-1 skeleton-loading flex items-center justify-center p-2 ${className}`}
+               className={` shrink-[0] bg-(--custom-bg-charcoal) rounded-[10px] gap-1 flex items-center justify-center p-2 ${className} skeleton-loading !w-[180px] !h-[280px] sm:!h-[300px] sm:!w-[220px]`}
             >
                {isError && (
                   <>
@@ -112,7 +112,7 @@ function VerticalCard({ className = '', params = {}, settings = {} }) {
                ref={card}
             >
                <div
-                  className={`h-[300px] overflow-hidden w-[220px] shadow-xl/20 z-2 rounded-[10px] relative ${className} fade-in`}
+                  className={`h-[250px] overflow-hidden w-[150px] shadow-xl/20 z-2 rounded-[10px] relative ${className} fade-in sm:h-[300px] sm:w-[220px]`}
                >
                   <div
                      ref={cardContent}

@@ -85,11 +85,12 @@ function Navbar() {
                   <li key={i} className="list-none block text-center lg:grow-1">
                      <NavLink
                         to={page.path}
-                        className={({ isActive }) =>
-                           `${
+                        className={({ isActive }) => {
+                           isActive ? (document.title = page.label) : '';
+                           return `${
                               isActive ? 'text-blue-600' : 'text-white'
-                           } block hover:bg-(--custom-hover-gray) lg:rounded-md text-start ps-2 lg:text-center`
-                        }
+                           } block hover:bg-(--custom-hover-gray) lg:rounded-md text-start ps-2 lg:text-center`;
+                        }}
                      >
                         {page.label}
                      </NavLink>

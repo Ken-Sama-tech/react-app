@@ -11,6 +11,10 @@ function Manga() {
          const genres = res.data.map((genre) => genre.name);
          setGenreList(genres);
       });
+
+      jikanApi.getAllAnime({}, (res) => {
+         console.log(res.data);
+      });
    }, []);
    console.log(genreList);
    return (

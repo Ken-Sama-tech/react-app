@@ -5,7 +5,7 @@ import {
 
 class AnimeApi {
     constructor() {
-        this.baseUrl = 'http://localhost:3000/api/anime';
+        this.baseUrl = 'http://localhost:3000/animeApi/anime';
     }
 
     getTrending = async (cb) => {

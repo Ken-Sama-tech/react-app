@@ -15,7 +15,7 @@ class JikanApi {
      * @param {number} params.page - Page number of results.
      */
     constructor() {
-        this.baseUrl = 'https://api.jikan.moe/v4';
+        this.baseUrl = 'http://localhost:3000/jikanApi';
         this.validRequest = [
             'full',
             'characters',
@@ -36,31 +36,31 @@ class JikanApi {
      * @param {string} params.request - request type
      */
 
-    getAnime = async (params = {}, cb) => {
-        const {
-            id = 1, request = 'episodes', page = 1
-        } = params;
+    // getAnime = async (params = {}, cb) => {
+    //     const {
+    //         id = 1, request = 'episodes', page = 1
+    //     } = params;
 
-        const animeValidRequest = [...this.validRequest, 'episodes', 'videos', 'streaming', 'staff', 'themes'];
+    //     const animeValidRequest = [...this.validRequest, 'episodes', 'videos', 'streaming', 'staff', 'themes'];
 
-        try {
+    //     try {
 
-            if (!animeValidRequest.includes(request)) {
-                console.warn(`Valid request are: ${JSON.stringify(animeValidRequest)}`)
-                throw new Error(`Invalid Request "${request}"`);
-            }
+    //         if (!animeValidRequest.includes(request)) {
+    //             console.warn(`Valid request are: ${JSON.stringify(animeValidRequest)}`)
+    //             throw new Error(`Invalid Request "${request}"`);
+    //         }
 
-            const url = `${this.baseUrl}/anime/${id}/${request}?page=${page}`;
-            useFetch(url).then(res => {
-                cb(res)
-                return res;
-            })
+    //         const url = `${this.baseUrl}/anime/${id}/${request}?page=${page}`;
+    //         useFetch(url).then(res => {
+    //             cb(res)
+    //             return res;
+    //         })
 
-        } catch (error) {
-            console.error("Error fetching anime data:", error.message);
-            return null;
-        }
-    }
+    //     } catch (error) {
+    //         console.error("Error fetching anime data:", error.message);
+    //         return null;
+    //     }
+    // }
 
     /**
      * @param {string} params.filter - filter by field (bypopularity, upcoming, airing, favorite)
@@ -111,7 +111,7 @@ class JikanApi {
             if (!query)
                 return;
 
-            const url = `${this.baseUrl}/anime?q=${encodeURIComponent(query)}${limit ? `&limit=${limit}`: ''}${page ? `&page=${page}`:''}${sort ? `&sort=${sort}`:''}&sfw=${sfw}`;
+            const url = `${this.baseUrl}/anime?${ query ? `q=${encodeURIComponent(query)}` : ''}${limit ? `&limit=${limit}`: ''}${page ? `&page=${page}`:''}${sort ? `&sort=${sort}`:''}&sfw=${sfw}`;
 
             useFetch(url).then(res => {
                 if (!res)
@@ -130,7 +130,7 @@ class JikanApi {
             limit = null, page = null
         } = params;
 
-        const url = `${this.baseUrl}/top/anime?limit=${limit ? `&limit=${limit}`: ''}${page ? `&page=${page}`: ''}`;
+        const url = `${this.baseUrl}/top/anime?${limit ? `limit=${limit}`: ''}${page ? `&page=${page}`: ''}`;
         useFetch(url).then(res => {
             if (!res)
                 return;
@@ -144,8 +144,7 @@ class JikanApi {
             filter = null
         } = params;
         const validFilterParameters = ['genres', 'explicit_genres', 'themes', 'demographics'];
-        const url = `${this.baseUrl}/genres/anime?${validFilterParameters.includes(filter) ? `filter=${filter}`: ''}`
-
+        const url = `${this.baseUrl}/genres/anime?${validFilterParameters.includes(filter) ? `filter=${filter}`: ''}`;
         useFetch(url).then(res => {
             if (!res)
                 return;

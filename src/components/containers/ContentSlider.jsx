@@ -84,11 +84,7 @@ function ContentSlider({ children, params = {}, className = '' }) {
                         {Array.from({ length: placeholderCount }, (_, i) => (
                            <VerticalCard
                               key={i}
-                              className={`${
-                                 vertical
-                                    ? '!w-[150px] !h-[250px] sm:!h-[300px] sm:!w-[220px]'
-                                    : ''
-                              }`}
+                              className="!w-[150px] !h-[250px] sm:!h-[300px] sm:!w-[220px]"
                               settings={reqTimedout ? { error: true } : ''}
                            />
                         ))}
@@ -103,7 +99,7 @@ function ContentSlider({ children, params = {}, className = '' }) {
                         className={`list-none fade-in mt-3 h-auto w-[95%] gap-5 flex justify-start items-center z-1 ${className} py-1 ${
                            !vertical
                               ? 'snap-x snap-mandatory scroll-smooth overflow-x-auto overflow-y-hidden rm-scrollbar'
-                              : 'overflow-x-hidden overflow-y-auto flex-wrap !justify-center'
+                              : 'overflow-x-hidden overflow-y-auto flex-wrap'
                         }`}
                      >
                         {children}
